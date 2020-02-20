@@ -1,3 +1,6 @@
+const request = require("supertest");
+const app = require("../../src/app");
+
 const { Survivor } = require("../../src/app/models");
 
 describe("Check Suvivors", () => {
@@ -8,8 +11,17 @@ describe("Check Suvivors", () => {
       gender: "M",
       coordinates: "24N 20W"
     });
-
-    console.log(survivor);
     expect(survivor.name).toBe("Felipe");
+
+    const response = await request(app)
+      .post("/survivor")
+      .send({
+        name: survivor.name,
+        age: survivor.age,
+        gender: survivor.gender,
+        coordinates: survivor.coordinates
+      });
+
+    expect(response.status).toBe(200);
   });
 });
