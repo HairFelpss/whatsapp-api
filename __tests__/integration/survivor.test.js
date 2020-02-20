@@ -21,11 +21,23 @@ describe("Check Suvivors", () => {
     expect(response.status).toBe(200);
   });
 
-  it("Should update user coordinates", async () => {
+  it("Should update survivor coordinates", async () => {
     const response = await request(app)
       .put("/survivors")
       .send({
         coordinates: "38N -11W"
+      });
+
+    expect(response.status).toBe(200);
+  });
+
+  it("Should update survivor inventory", async () => {
+    const response = await request(app)
+      .put("/inventory")
+      .send({
+        water: 5,
+        food: 1,
+        medKit: 2
       });
 
     expect(response.status).toBe(200);
