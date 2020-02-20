@@ -1,25 +1,20 @@
 const request = require("supertest");
 const app = require("../../src/app");
 
-const { Survivor } = require("../../src/app/models");
+const truncate = require("../utils/truncate");
 
 describe("Check Suvivors", () => {
+  beforeEach(async () => {
+    await truncate();
+  });
   it("Should check if survivor is good", async () => {
-    const survivor = await Survivor.create({
-      name: "Felipe",
-      age: 23,
-      gender: "M",
-      coordinates: "24N 20W"
-    });
-    expect(survivor.name).toBe("Felipe");
-
     const response = await request(app)
-      .post("/survivor")
+      .post("/survivors")
       .send({
-        name: survivor.name,
-        age: survivor.age,
-        gender: survivor.gender,
-        coordinates: survivor.coordinates
+        name: "Felipe",
+        age: 23,
+        gender: "M",
+        coordinates: "24N 20W"
       });
 
     expect(response.status).toBe(200);

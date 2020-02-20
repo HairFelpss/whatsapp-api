@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     ammo: DataTypes.INTEGER
   });
 
-  Survivor.associate = models => {
-    Survivor.belongsTo(models.Survivor, {
+  Inventory.associate = models => {
+    Inventory.belongsTo(models.Survivor, {
       as: "inventory",
       foreignKey: "inventory_id"
     });
