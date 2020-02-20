@@ -7,5 +7,11 @@ module.exports = (sequelize, DataTypes) => {
     infected: DataTypes.BOOLEAN
   });
 
+  Survivor.associate = models => {
+    Survivor.hasOne(models.Inventory, {
+      foreignKey: "id",
+      as: "inventory"
+    });
+  };
   return Survivor;
 };

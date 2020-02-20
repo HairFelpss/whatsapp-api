@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Inventory = sequelize.define("Survivor", {
+  const Inventory = sequelize.define("Inventory", {
     water: DataTypes.INTEGER,
     food: DataTypes.INTEGER,
     medKit: DataTypes.INTEGER,
