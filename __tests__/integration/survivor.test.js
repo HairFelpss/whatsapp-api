@@ -14,7 +14,18 @@ describe("Check Suvivors", () => {
         name: "Felipe",
         age: 23,
         gender: "M",
-        coordinates: "24N 20W"
+        coordinates: "24N 20W",
+        infected: true
+      });
+
+    expect(response.status).toBe(200);
+  });
+
+  it("Should update user coordinates", async () => {
+    const response = await request(app)
+      .put("/survivors")
+      .send({
+        coordinates: "38N -11W"
       });
 
     expect(response.status).toBe(200);

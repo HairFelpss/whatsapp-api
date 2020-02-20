@@ -4,16 +4,21 @@ class SurvivorController {
   async store(req, res) {
     try {
       console.log(req.body);
-      const { name, age, gender, coordinates } = await Survivor.create(
-        req.body
-      );
+      const {
+        name,
+        age,
+        gender,
+        coordinates,
+        infected
+      } = await Survivor.create(req.body);
 
       return res
         .json({
           name,
           age,
           gender,
-          coordinates
+          coordinates,
+          infected
         })
         .send();
     } catch (err) {
