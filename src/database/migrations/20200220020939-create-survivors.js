@@ -5,9 +5,9 @@ module.exports = {
     return queryInterface.createTable("survivors", {
       id: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: false,
-        allowNull: false
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true
       },
       name: {
         type: Sequelize.STRING,
@@ -18,13 +18,13 @@ module.exports = {
         allowNull: false
       },
       gender: {
-        type: Sequelize.STRING(1),
+        type: Sequelize.STRING,
         allowNull: false
       },
       coordinates: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: false
+        unique: true
       },
       created_at: {
         type: Sequelize.DATE,
