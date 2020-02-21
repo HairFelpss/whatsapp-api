@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     age: DataTypes.INTEGER,
     gender: DataTypes.STRING,
     coordinates: DataTypes.STRING,
-    infected: DataTypes.BOOLEAN
+    infected: DataTypes.BOOLEAN,
+    inventory_id: DataTypes.INTEGER
   });
 
   Survivor.associate = models => {

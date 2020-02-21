@@ -4,20 +4,28 @@ const { Inventory } = require("../models");
 class SurvivorController {
   async store(req, res) {
     try {
+      const inventory = await Inventory.create();
+
+      const createSurvivor = req.body;
+      createSurvivor.inventory_id = inventory.id;
+
+      console.log(createSurvivor);
       const {
         name,
         age,
         gender,
         coordinates,
-        infected
-      } = await Survivor.create(req.body);
+        infected,
+        inventory_id
+      } = await Survivor.create(createSurvivor);
 
       return res.json({
         name,
         age,
         gender,
         coordinates,
-        infected
+        infected,
+        inventory_id
       });
     } catch (err) {
       console.log("err => ", err);

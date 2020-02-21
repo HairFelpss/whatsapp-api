@@ -1,13 +1,15 @@
 const request = require("supertest");
 const app = require("../../src/app");
+const { Inventory } = require("../../src/app/models");
 
 const truncate = require("../utils/truncate");
 
 describe("Check Suvivors", () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await truncate();
   });
   it("Should check if survivor is good", async () => {
+    const inventory = await Inventory.create();
     const response = await request(app)
       .post("/survivors")
       .send({
@@ -15,7 +17,8 @@ describe("Check Suvivors", () => {
         age: 23,
         gender: "M",
         coordinates: "24N 20W",
-        infected: true
+        infected: true,
+        inventory_id: inventory.id
       });
 
     expect(response.status).toBe(200);
@@ -29,7 +32,7 @@ describe("Check Suvivors", () => {
       });
 
     expect(response.status).toBe(200);
-    expect(response.data.coordinates).not.toBe("24N 20W");
+    expect(response.body.coordinates).toBe("38N -11W");
   });
 
   /* it("Should update survivor inventory", async () => {

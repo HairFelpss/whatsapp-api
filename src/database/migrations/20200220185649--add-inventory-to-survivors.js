@@ -4,7 +4,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn("survivors", "inventory_id", {
       type: Sequelize.INTEGER,
-      references: { model: "inventory", key: "id" },
+      references: { model: "inventories", key: "id" },
       onUpdate: "CASCADE",
       onDelete: "CASCADE"
     });
