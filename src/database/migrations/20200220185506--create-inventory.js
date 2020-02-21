@@ -19,7 +19,7 @@ module.exports = {
         allowNull: false,
         defaultValue: 0
       },
-      medKit: {
+      med_kit: {
         type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0

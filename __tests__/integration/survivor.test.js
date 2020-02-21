@@ -35,16 +35,16 @@ describe("Check Suvivors", () => {
     expect(response.body.coordinates).toBe("38N -11W");
   });
 
-  /* it("Should update survivor inventory", async () => {
+  it("Should update survivor inventory", async () => {
     const response = await request(app)
-      .put("/inventories")
+      .put("/inventory/1")
       .send({
         water: 5,
         food: 1,
-        medKit: 2
+        med_kit: 2
       });
 
     expect(response.status).toBe(200);
-    expect(response.data.water).toBe(5);
-  });*/
+    expect(response.body.water).toBe(5);
+  });
 });
