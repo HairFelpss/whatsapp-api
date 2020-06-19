@@ -1,11 +1,18 @@
-const brycpt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
     {
+      id: {
+        field: 'ID',
+        primaryKey: true,
+        unique: true,
+        type: DataTypes.INTEGER,
+      },
       name: DataTypes.STRING,
       passwd: DataTypes.INTEGER,
+      passwd_hash: DataTypes.VIRTUAL,
       Prompt: DataTypes.STRING,
       answer: DataTypes.STRING,
       truename: DataTypes.STRING,
@@ -18,7 +25,21 @@ module.exports = (sequelize, DataTypes) => {
     {
       timestamps: true,
       updatedAt: false,
+      hooks: {
+        beforeSave: async (user) => {
+          if (user.passwd_hash) {
+            user.passwd = await bcrypt.hash(user.passwd_hash, 10);
+          }
+        },
+      },
     }
   );
+
+  // Adding an instance level methods.
+  User.prototype.checkPassword = async function (passwd_hash) {
+    console.log(passwd_hash, this.passwd);
+    return await bcrypt.compareSync(passwd_hash, this.passwd);
+  };
+
   return User;
 };

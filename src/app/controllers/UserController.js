@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const sequelize = require('sequelize');
 
 class UserController {
   async store(req, res) {
@@ -13,7 +14,6 @@ class UserController {
       /*if (!(await schema.isValid(req.body))) {
         return res.status(400).json({ error: 'Validation fails' })
       }*/
-
       const userExists = await User.findOne({
         where: { email: req.body.email },
       });
@@ -22,7 +22,21 @@ class UserController {
         return res.status(400).json({ error: 'User already exists' });
       }
 
+      const max = await User.findAll({
+        attributes: [[sequelize.fn('MAX', sequelize.col('ID')), 'ID']],
+        raw: true,
+      });
+
+      const lastId = (lastId) => {
+        return lastId + 1;
+      };
+
+      console.log(max[0]);
+      const id = lastId(max[0].ID);
+      req.body.id = id;
+      req.body.passwd_hash = req.body.passwd;
       const {
+        ID,
         name,
         passwd,
         Prompt,
@@ -32,6 +46,7 @@ class UserController {
       } = await User.create(req.body);
 
       return res.json({
+        ID,
         name,
         passwd,
         Prompt,
@@ -47,7 +62,7 @@ class UserController {
   async index(req, res) {
     try {
       const user = await User.findAll({
-        attributes: ['id', 'name', 'email', 'avatar_id'],
+        attributes: ['ID', 'name', 'email', 'passwd'],
       });
       return res.json(user);
     } catch (err) {
