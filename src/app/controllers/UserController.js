@@ -15,11 +15,15 @@ class UserController {
         return res.status(400).json({ error: 'Validation fails' })
       }*/
       const userExists = await User.findOne({
-        where: { email: req.body.email },
+        where: {
+          email: req.body.email,
+        },
       });
 
       if (userExists) {
-        return res.status(400).json({ error: 'User already exists' });
+        return res.status(400).json({
+          error: 'User already exists',
+        });
       }
 
       const max = await User.findAll({
@@ -31,7 +35,6 @@ class UserController {
         return lastId + 1;
       };
 
-      console.log(max[0]);
       const id = lastId(max[0].ID);
       req.body.id = id;
       req.body.passwd_hash = req.body.passwd;
@@ -72,50 +75,20 @@ class UserController {
 
   async update(req, res) {
     try {
-      /*const schema = Yup.object().shape({
-        name: Yup.string(),
-        email: Yup.string().email(),
-        oldPassword: Yup.string().min(10),
-        password: Yup.string().min(10).when('oldPassword', (oldPassword, field) =>
-          oldPassword ? field.required() : field
-        ),
-        confirmPassword: Yup.string().when('password', (password, field) =>
-          password ? field.required().oneOf([Yup.ref('password')]) : field
-        ),
-        role_id: Yup.number()
-      })
-
-      if (!(await schema.isValid(req.body))) {
-        return res.status(400).json({ error: 'Validation fails' })
-      }*/
-
-      const { email, oldPassword } = req.body;
-      const id = req.userId;
-
+      const { id } = req.params;
       const user = await User.findByPk(id);
 
-      if (email && email !== user.email) {
-        const userExists = await User.findOne({
-          where: { email: req.body.email },
-        });
-
-        if (userExists) {
-          return res.status(400).json({ error: 'User already exists' });
-        }
-      }
-
-      if (oldPassword && !(await user.checkPassword(oldPassword))) {
-        res.status(401).json({ error: 'Password does not match ' });
-      }
-
-      await user.update(req.body);
-
-      const { name, password } = await User.findByPk(req.userId);
+      const { ID, name, Prompt, answer, truename, email } = await user.update(
+        req.body
+      );
 
       return res.json({
+        ID,
         name,
+        Prompt,
+        answer,
+        truename,
         email,
-        password,
       });
     } catch (err) {
       console.log('err => ', err);
@@ -127,7 +100,9 @@ class UserController {
       const { id } = req.params;
       const user = await User.findByPk(id);
       const deleteUser = await user.destroy(req.body);
-      res.json({ deleteUser });
+      res.json({
+        deleteUser,
+      });
     } catch (err) {
       console.log('err => ', err);
 

@@ -5,6 +5,7 @@ require('dotenv').config({
 const express = require('express');
 const routes = require('./routes');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 require('express-async-errors');
 
@@ -19,6 +20,8 @@ class AppController {
   middlewares() {
     this.express.use(cors());
     this.express.use(express.json());
+    this.express.use(bodyParser.urlencoded({ extended: false }));
+    this.express.use(bodyParser.json());
   }
 
   routes() {

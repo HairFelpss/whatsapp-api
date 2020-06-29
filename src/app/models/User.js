@@ -37,7 +37,6 @@ module.exports = (sequelize, DataTypes) => {
 
   // Adding an instance level methods.
   User.prototype.checkPassword = async function (passwd_hash) {
-    console.log(passwd_hash, this.passwd);
     return await bcrypt.compareSync(passwd_hash, this.passwd);
   };
 
