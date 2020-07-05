@@ -8,8 +8,8 @@ const pag = new Pagseguro({
   email: process.env.EMAIL,
   token:
     process.env.NODE_ENV === 'development'
-      ? process.env.TOKEN_SANDBOX
-      : process.env.TOKEN_PROD,
+      ? process.env.PAGSEGURO_TOKEN_SANDBOX
+      : process.env.PAGSEGURO_TOKEN_PROD,
   mode:
     process.env.NODE_ENV === 'development'
       ? Pagseguro.MODE_SANDBOX

@@ -3,27 +3,32 @@ const xmlParser = require('xml2json');
 
 class PagSeguroController {
   async payment(req, res) {
-    const { id, description, amount, quantity } = req.body;
+    try {
+      const { id, title, description, amount, quantity } = req.body;
 
-    PGS.addItem({
-      id,
-      description,
-      amount,
-      quantity,
-    });
+      PGS.addItem({
+        id,
+        title,
+        description,
+        amount,
+        quantity,
+      });
 
-    PGS.shipping({
-      type: 3,
-    });
+      PGS.shipping({
+        type: 3,
+      });
 
-    PGS.checkout((success, response) => {
-      if (success) {
-        const jsonResponse = JSON.parse(xmlParser.toJson(response));
-        const boxInfo = jsonResponse.checkout;
-        return res.json({ success, boxInfo });
-      }
-      return res.json({ response });
-    });
+      PGS.checkout((success, response) => {
+        if (success) {
+          const jsonResponse = JSON.parse(xmlParser.toJson(response));
+          const boxInfo = jsonResponse.checkout;
+          return res.json({ success, boxInfo });
+        }
+        return res.json({ response });
+      });
+    } catch (err) {
+      return res.json({ err });
+    }
   }
 }
 
