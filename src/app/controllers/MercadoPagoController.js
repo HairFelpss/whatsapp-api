@@ -37,6 +37,12 @@ class MercadoPagoController {
           unit_price: parseInt(amount),
         },
       ],
+      auto_return: 'approved',
+      back_urls: {
+        success: 'http://localhost:5000/mercadopago/success',
+        failure: 'http://localhost:5000/mercadopago/cancel',
+        pending: 'http://www.pending.com',
+      },
     };
 
     try {
