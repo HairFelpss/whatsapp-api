@@ -9,8 +9,8 @@ class PayPalController {
         intent: 'sale',
         payer: { payment_method: 'paypal' },
         redirect_urls: {
-          return_url: 'http://localhost:5000/paypal/success',
-          cancel_url: 'http://localhost:5000/paypal/cancel',
+          return_url: 'http://localhost:3000/success',
+          cancel_url: 'http://localhost:3000/fail',
         },
         transactions: [
           {
