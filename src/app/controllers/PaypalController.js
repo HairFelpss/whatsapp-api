@@ -56,7 +56,6 @@ class PayPalController {
       }
       console.log('Get Payment Response');
       console.log(JSON.stringify(payment));
-      res.redirect('http://localhost:3000/products');
     });
   }
   cancel(req, res) {

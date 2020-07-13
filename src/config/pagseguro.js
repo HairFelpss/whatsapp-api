@@ -18,5 +18,7 @@ const pag = new Pagseguro({
 
 pag.currency('BRL');
 pag.reference('AMORMUITOAMORMUITOAMOR');
-pag.redirect('http://localhost:3000/success');
+pag.redirect('http://www.localhost:3000/success');
+pag.notify('http://www.localhost:5000/pagseguro/notify');
+
 module.exports = pag;

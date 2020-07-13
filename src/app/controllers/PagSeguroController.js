@@ -31,8 +31,20 @@ class PagSeguroController {
   }
 
   async success(req, res) {
-    PGS.transaction(req.query.code, function (success, response) {
+    PGS.transaction(req.query.code, (success, response) => {
       const jsonResponse = JSON.parse(xmlParser.toJson(response));
+      if (success) {
+        return res.json({ success, jsonResponse });
+      }
+      return res.json({ jsonResponse });
+    });
+  }
+  async notify(req, res) {
+    //const { code } = req.body;
+    console.log('chamou aqui');
+    PGS.notification(code, (success, response) => {
+      const jsonResponse = JSON.parse(xmlParser.toJson(response));
+      console.log('AQUIUIII ====> ', jsonResponse);
       if (success) {
         return res.json({ success, jsonResponse });
       }

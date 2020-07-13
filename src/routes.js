@@ -19,10 +19,12 @@ routes.delete('/users/:id', UserController.delete);
 routes.post('/pagseguro/pay', PagSeguroController.payment);
 routes.get('/pagseguro/success', PagSeguroController.success);
 //routes.get('/pagseguro/cancel', PagSeguroController.cancel);
+routes.post('/pagseguro/notify', PagSeguroController.notify);
 
 routes.post('/mercadopago/pay', MercadoPagoController.payment);
 //routes.get('/mercadopago/success', MercadoPagoController.success);
 //routes.get('/mercadopago/cancel', MercadoPagoController.cancel);
+routes.post('/mercadopago/notify', MercadoPagoController.notify);
 
 routes.post('/paypal/pay', PayPalController.payment);
 routes.get('/paypal/success', PayPalController.success);

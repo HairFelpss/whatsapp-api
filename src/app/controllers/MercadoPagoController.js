@@ -43,6 +43,7 @@ class MercadoPagoController {
         failure: 'http://localhost:3000/cancel',
         pending: 'http://localhost:3000/success',
       },
+      notification_url: 'http://www.localhost:5000/mercadopago/notify',
     };
 
     try {
@@ -52,6 +53,11 @@ class MercadoPagoController {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  async notify(req, res) {
+    console.log('entro');
+    console.log(req, ' ======== ', res);
   }
 }
 
