@@ -1,4 +1,5 @@
 const { User } = require('../models');
+
 const sequelize = require('sequelize');
 
 class UserController {
@@ -38,6 +39,7 @@ class UserController {
       const id = lastId(max[0].ID);
       req.body.id = id;
       req.body.passwd_hash = req.body.passwd;
+
       const {
         ID,
         name,
@@ -46,6 +48,7 @@ class UserController {
         answer,
         truename,
         email,
+        cp_rank_id,
       } = await User.create(req.body);
 
       return res.json({
@@ -56,6 +59,7 @@ class UserController {
         answer,
         truename,
         email,
+        cp_rank_id,
       });
     } catch (err) {
       console.log('err => ', err);
@@ -65,7 +69,7 @@ class UserController {
   async index(req, res) {
     try {
       const user = await User.findAll({
-        attributes: ['ID', 'name', 'email', 'passwd'],
+        attributes: ['ID', 'name', 'email', 'creatime', 'cp_rank_id'],
       });
       return res.json(user);
     } catch (err) {

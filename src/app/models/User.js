@@ -40,5 +40,11 @@ module.exports = (sequelize, DataTypes) => {
     return await bcrypt.compareSync(passwd_hash, this.passwd);
   };
 
+  User.associate = (models) => {
+    User.belongsTo(models.cp_rank, {
+      foreignKey: 'cp_rank_id',
+      as: 'rank',
+    });
+  };
   return User;
 };

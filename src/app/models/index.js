@@ -3,9 +3,29 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
+const mongoose = require('mongoose');
 const basename = path.basename(__filename);
 const config = require('../../config/database');
+const {
+  username,
+  password,
+  host,
+  port,
+  database,
+} = require('../../config/mongoose');
 const db = {};
+
+mongoose.connect(
+  `mongodb://${username}:${password}@${host}:${port}/${database}`,
+  {
+    useNewUrlParser: true,
+    useFindAndModify: true,
+    useUnifiedTopology: true,
+  }
+);
+
+mongoose.connection.on('error', () => console.log('connection error'));
+mongoose.connection.once('open', () => console.log('Mongo DB connected'));
 
 const sequelize = new Sequelize(
   config.database,
