@@ -77,17 +77,27 @@ class UserController {
     }
   }
 
+  async indexOne(req, res) {
+    try {
+      const { id } = req.params;
+      const user = await User.findByPk(id);
+      const { Prompt, answer, cp_rank_id, email, name, truename } = user;
+      return res.json({ Prompt, answer, cp_rank_id, email, name, truename });
+    } catch (err) {
+      console.log('err => ', err);
+    }
+  }
+
   async update(req, res) {
     try {
       const { id } = req.params;
       const user = await User.findByPk(id);
 
-      const { ID, name, Prompt, answer, truename, email } = await user.update(
+      const { name, Prompt, answer, truename, email } = await user.update(
         req.body
       );
 
       return res.json({
-        ID,
         name,
         Prompt,
         answer,
@@ -104,9 +114,7 @@ class UserController {
       const { id } = req.params;
       const user = await User.findByPk(id);
       const deleteUser = await user.destroy(req.body);
-      res.json({
-        deleteUser,
-      });
+      res.json(deleteUser);
     } catch (err) {
       console.log('err => ', err);
 

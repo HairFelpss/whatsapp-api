@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const authConfig = require('../../config/auth');
 
 const { User } = require('../models');
+const Rank = require('../models').cp_rank;
 
 class SessionController {
   async store(req, res) {
@@ -34,7 +35,11 @@ class SessionController {
         });
       }
 
-      const { id, name, Prompt, answer, truename } = user;
+      const { id, name, Prompt, answer, truename, cp_rank_id } = user;
+      const rank = cp_rank_id
+        ? await Rank.findOne({ where: { id: cp_rank_id } })
+        : null;
+      const rank_name = rank ? rank.name : 'user';
 
       return res.json({
         user: {
@@ -43,6 +48,8 @@ class SessionController {
           answer,
           truename,
           email,
+          rank_name,
+          cp_rank_id,
         },
         token: jwt.sign(
           {

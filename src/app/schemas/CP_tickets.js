@@ -37,5 +37,12 @@ const CP_tickers = new mongoose.Schema(
     timestamps: true,
   }
 );
-
+/*
+CREATE TABLE comments (
+    comment_id  INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    ticket_id   INT NOT NULL REFERENCES tickets(ticket_id) ON DELETE CASCADE,
+    comment_date    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    comment_content TEXT NOT NULL
+);
+*/
 export default mongoose.model('tickets', CP_tickers);
