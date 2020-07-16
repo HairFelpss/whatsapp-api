@@ -6,46 +6,30 @@ const CP_tickers = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    account: {
-      type: String,
-      required: true,
-    },
-    coins_amount: {
+    helper_id: {
       type: Number,
       required: true,
     },
-    coins_delivered: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    coins_bonus: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    value: {
+    helped_id: {
       type: Number,
       required: true,
     },
-    price: {
-      type: Number,
-      required: true,
-    },
-    currency: {
-      type: String,
-      required: true,
-    },
-    payment_method: {
+    title: {
       type: String,
       required: true,
     },
     status: {
       type: String,
+      enum: ['Open', 'Pending', 'Close'],
       required: true,
     },
-    transaction_code: {
+    content: {
       type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      enum: ['Delay', 'Bug', 'Question'],
       required: true,
     },
   },

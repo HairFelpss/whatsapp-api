@@ -1,13 +1,17 @@
 import mongoose from 'moongose';
 
-const CP_forgot_passwordSchema = new mongoose.Schema(
+const CP_transfersSchema = new mongoose.Schema(
   {
     id: {
       type: Number,
       required: true,
     },
-    account_id: {
-      type: Number,
+    amount: {
+      type: String,
+      required: true,
+    },
+    new_email: {
+      type: String,
       required: true,
     },
     code: {
@@ -20,4 +24,4 @@ const CP_forgot_passwordSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model('forgot_password', CP_forgot_passwordSchema);
+export default mongoose.model('transfers', CP_transfersSchema);

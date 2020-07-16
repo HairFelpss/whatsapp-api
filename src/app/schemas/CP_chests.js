@@ -6,45 +6,27 @@ const CP_chests = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    account: {
+    title: {
       type: String,
       required: true,
     },
-    coins_amount: {
-      type: Number,
-      required: true,
-    },
-    coins_delivered: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    coins_bonus: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    value: {
-      type: Number,
-      required: true,
-    },
-    price: {
-      type: Number,
-      required: true,
-    },
-    currency: {
+    description: {
       type: String,
       required: true,
     },
-    payment_method: {
+    imageUrl: {
       type: String,
       required: true,
     },
-    status: {
+    totalDownloads: {
       type: String,
       required: true,
     },
-    transaction_code: {
+    amount: {
+      type: String,
+      required: true,
+    },
+    quantity: {
       type: String,
       required: true,
     },

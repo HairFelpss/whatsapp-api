@@ -6,8 +6,8 @@ const CP_log_adminSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    value: {
-      type: String,
+    account_id: {
+      type: Number,
       required: true,
     },
     ip: {
