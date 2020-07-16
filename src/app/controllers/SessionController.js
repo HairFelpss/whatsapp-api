@@ -54,6 +54,7 @@ class SessionController {
         token: jwt.sign(
           {
             id,
+            rank_name,
           },
           authConfig.secret,
           {
