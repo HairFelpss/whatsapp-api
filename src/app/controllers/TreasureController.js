@@ -41,13 +41,13 @@ class TreasureController {
       const treasure = await Treasure.findByPk(id);
 
       if (name && name !== treasure.name) {
-        const treasureExists = await Treasure.findOne({
+        /* const treasureExists = await Treasure.findOne({
           where: { name: req.body.name },
         });
 
         if (treasureExists) {
           return res.status(401).json({ error: 'Treasure already exists' });
-        }
+        }*/
       }
     } catch (err) {
       console.log('err => ', err);
@@ -58,7 +58,7 @@ class TreasureController {
     try {
       const { id } = req.params;
       const treasure = await Treasure.findByPk(id);
-      const deleteTreasure = await treasure.destroy(req.body);
+      //const deleteTreasure = await treasure.destroy(req.body);
       res.json(deleteUser);
     } catch (err) {
       console.log('err => ', err);
