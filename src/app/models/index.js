@@ -15,17 +15,21 @@ const {
 } = require('../../config/mongoose');
 const db = {};
 
-mongoose.connect(
-  `mongodb://${username}:${password}@${host}:${port}/${database}`,
-  {
-    useNewUrlParser: true,
-    useFindAndModify: true,
-    useUnifiedTopology: true,
-  }
-);
+try {
+  mongoose.connect(
+    `mongodb://${username}:${password}@${host}:${port}/${database}`,
+    {
+      useNewUrlParser: true,
+      useFindAndModify: true,
+      useUnifiedTopology: true,
+    }
+  );
 
-mongoose.connection.on('error', () => console.log('connection error'));
-mongoose.connection.once('open', () => console.log('Mongo DB connected'));
+  mongoose.connection.on('error', () => console.log('connection error'));
+  mongoose.connection.once('open', () => console.log('Mongo DB connected'));
+} catch (err) {
+  console.log('err => ', err);
+}
 
 const sequelize = new Sequelize(
   config.database,

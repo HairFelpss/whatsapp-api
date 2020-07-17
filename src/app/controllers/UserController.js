@@ -38,7 +38,8 @@ class UserController {
 
       const id = lastId(max[0].ID);
       req.body.id = id;
-      req.body.passwd_hash = req.body.passwd;
+      req.body.passwd = req.body.password;
+      req.body.passwd_hash = req.body.password;
 
       const {
         ID,
@@ -81,8 +82,15 @@ class UserController {
     try {
       const { id } = req.params;
       const user = await User.findByPk(id);
-      const { Prompt, answer, cp_rank_id, email, name, truename } = user;
-      return res.json({ Prompt, answer, cp_rank_id, email, name, truename });
+      const { name, Prompt, answer, truename, email, cp_rank_id } = user;
+      return res.json({
+        name,
+        Prompt,
+        answer,
+        truename,
+        email,
+        cp_rank_id,
+      });
     } catch (err) {
       console.log('err => ', err);
     }
@@ -91,7 +99,6 @@ class UserController {
   async update(req, res) {
     try {
       const { email, oldPassword } = req.body;
-
       const { id } = req.params;
       const user = await User.findByPk(id);
 
@@ -101,26 +108,23 @@ class UserController {
         });
 
         if (userExists) {
-          return res.status(400).json({ error: 'User already exists' });
+          return res.status(401).json({ error: 'User already exists' });
         }
       }
 
       if (oldPassword && !(await user.checkPassword(oldPassword))) {
-        res.status(401).json({ error: 'Password does not match ' });
+        return res.status(401).json({ error: 'Password does not match' });
       }
 
-      const {
-        name,
-        passwd,
-        Prompt,
-        answer,
-        truename,
-        cp_rank_id,
-      } = await user.update(req.body);
+      req.body.passwd = req.body.password;
+      req.body.passwd_hash = req.body.password;
+
+      const { name, Prompt, answer, truename, cp_rank_id } = await user.update(
+        req.body
+      );
 
       return res.json({
         name,
-        passwd,
         Prompt,
         answer,
         truename,

@@ -35,7 +35,7 @@ class SessionController {
         });
       }
 
-      const { id, name, Prompt, answer, truename, cp_rank_id } = user;
+      const { id, name, truename, cp_rank_id } = user;
       const rank = cp_rank_id
         ? await Rank.findOne({ where: { id: cp_rank_id } })
         : null;
@@ -43,9 +43,8 @@ class SessionController {
 
       return res.json({
         user: {
+          id,
           name,
-          Prompt,
-          answer,
           truename,
           email,
           rank_name,
