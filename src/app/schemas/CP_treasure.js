@@ -1,10 +1,11 @@
-import mongoose from 'moongose';
-
-const CP_chests = new mongoose.Schema(
+const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
+const CP_treasure = new mongoose.Schema(
   {
     id: {
       type: Number,
       required: true,
+      default: 0,
     },
     title: {
       type: String,
@@ -36,4 +37,6 @@ const CP_chests = new mongoose.Schema(
   }
 );
 
-export default mongoose.model('chests', CP_chests);
+CP_treasure.plugin(AutoIncrement, { id: 'id_seq', inc_field: 'id' });
+
+module.export = mongoose.model('treasure', CP_treasure);
