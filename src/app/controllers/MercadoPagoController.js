@@ -2,7 +2,7 @@ const mercadopago = require('../../config/mercadopago');
 
 class MercadoPagoController {
   async payment(req, res) {
-    const { id, title, description, amount, quantity } = req.body;
+    const { id, title, description, price, amount } = req.body;
     /*
     const payer = {
       name: 'Joao',
@@ -32,9 +32,9 @@ class MercadoPagoController {
           id,
           title,
           description,
-          quantity: parseInt(quantity),
+          quantity: parseInt(amount),
           currency_id: 'BRL',
-          unit_price: parseInt(amount),
+          unit_price: parseInt(price),
         },
       ],
       auto_return: 'approved',

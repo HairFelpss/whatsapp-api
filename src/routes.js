@@ -23,10 +23,10 @@ routes.get('/rank', RankController.index);
 routes.put('/rank/:id', RankController.update);
 routes.delete('/rank/:id', RankController.delete);
 
-routes.post('/treasure', TreasureController.store);
-routes.get('/treasure', TreasureController.index);
-routes.put('/treasure/:id', TreasureController.update);
-routes.delete('/treasure/:id', TreasureController.delete);
+routes.post('/treasures', TreasureController.store);
+routes.get('/treasures', TreasureController.index);
+routes.put('/treasures/:id', TreasureController.update);
+routes.delete('/treasures/:id', TreasureController.delete);
 
 //PAYMENTS
 routes.post('/pagseguro/pay', PagSeguroController.payment);

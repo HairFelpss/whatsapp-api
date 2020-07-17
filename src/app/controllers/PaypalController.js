@@ -3,7 +3,7 @@ const paypal = require('../../config/paypal');
 class PayPalController {
   payment(req, res) {
     try {
-      const { description, amount } = req.body;
+      const { description, price } = req.body;
 
       const createPaymentJson = JSON.stringify({
         intent: 'sale',
@@ -15,7 +15,7 @@ class PayPalController {
         transactions: [
           {
             amount: {
-              total: amount,
+              total: price,
               currency: 'BRL',
             },
             description,
