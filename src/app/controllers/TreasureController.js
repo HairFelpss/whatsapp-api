@@ -1,4 +1,3 @@
-const { Treasure } = require('../models');
 const treasure = require('../schemas/CP_treasure');
 
 class TreasureController {
@@ -14,7 +13,23 @@ class TreasureController {
       /*if (!(await schema.isValid(req.body))) {
         return res.status(400).json({ error: 'Validation fails' })
       }*/
-      await treasure.create(req.body);
+      const {
+        title,
+        description,
+        image_url,
+        qt_bought,
+        amount,
+        price,
+      } = await treasure.create(req.body);
+
+      res.json({
+        title,
+        description,
+        image_url,
+        qt_bought,
+        amount,
+        price,
+      });
     } catch (err) {
       console.log('err => ', err);
     }
@@ -22,6 +37,12 @@ class TreasureController {
 
   async index(req, res) {
     try {
+      const response = await treasure.find(
+        {},
+        { _id: 0, __v: 0, created_at: 0 }
+      );
+
+      res.json(response);
     } catch (err) {
       console.log('err => ', err);
     }
@@ -36,19 +57,41 @@ class TreasureController {
 
   async update(req, res) {
     try {
-      const { name } = req.body;
+      const { title } = req.body;
       const { id } = req.params;
-      const treasure = await Treasure.findByPk(id);
+      const response = await treasure.findOne({ id: id });
+      console.log('costa de sapo => ', response);
 
-      if (name && name !== treasure.name) {
-        /* const treasureExists = await Treasure.findOne({
-          where: { name: req.body.name },
+      if (title && title !== response.title) {
+        console.log('entro => ', req.body.title);
+
+        const treasureExists = await treasure.findOne({
+          title: req.body.title,
         });
+        console.log('asdfasd =>> ', treasureExists);
 
         if (treasureExists) {
-          return res.status(401).json({ error: 'Treasure already exists' });
-        }*/
+          console.log('asdfasd');
+          return res.status(401).json({ error: 'treasure already exists' });
+        }
       }
+
+      const {
+        description,
+        image_url,
+        qt_bought,
+        amount,
+        price,
+      } = await treasure.findOneAndUpdate({ id: id }, req.body);
+
+      return res.json({
+        title,
+        description,
+        image_url,
+        qt_bought,
+        amount,
+        price,
+      });
     } catch (err) {
       console.log('err => ', err);
     }
@@ -57,9 +100,23 @@ class TreasureController {
   async delete(req, res) {
     try {
       const { id } = req.params;
-      const treasure = await Treasure.findByPk(id);
-      //const deleteTreasure = await treasure.destroy(req.body);
-      res.json(deleteUser);
+      const {
+        title,
+        description,
+        image_url,
+        qt_bought,
+        amount,
+        price,
+      } = await treasure.findOneAndDelete({ id: id });
+
+      res.json({
+        title,
+        description,
+        image_url,
+        qt_bought,
+        amount,
+        price,
+      });
     } catch (err) {
       console.log('err => ', err);
 

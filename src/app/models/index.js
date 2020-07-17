@@ -20,11 +20,12 @@ try {
     `mongodb://${username}:${password}@${host}:${port}/${database}`,
     {
       useNewUrlParser: true,
-      useFindAndModify: true,
+      useFindAndModify: false,
       useUnifiedTopology: true,
+      useCreateIndex: true,
     }
   );
-  mongoose.set('useCreateIndex', true);
+
   mongoose.connection.on('error', () => console.log('connection error'));
   mongoose.connection.once('open', () => console.log('Mongo DB connected'));
 } catch (err) {

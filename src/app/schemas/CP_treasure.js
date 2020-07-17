@@ -15,28 +15,28 @@ const CP_treasure = new mongoose.Schema(
       type: String,
       required: true,
     },
-    imageUrl: {
+    image_url: {
       type: String,
       required: true,
     },
-    totalDownloads: {
+    qt_bought: {
+      type: Number,
+      required: true,
+    },
+    price: {
       type: String,
       required: true,
     },
     amount: {
-      type: String,
-      required: true,
-    },
-    quantity: {
-      type: String,
+      type: Number,
       required: true,
     },
   },
   {
-    timestamps: true,
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
   }
 );
 
 CP_treasure.plugin(AutoIncrement, { id: 'id_seq', inc_field: 'id' });
 
-module.export = mongoose.model('treasure', CP_treasure);
+module.exports = mongoose.model('treasure', CP_treasure);
