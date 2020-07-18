@@ -4,13 +4,13 @@ const xmlParser = require('xml2json');
 class PagSeguroController {
   async payment(req, res) {
     try {
-      const { id, title, description, price, quantity: amount } = req.body;
+      const { id, title, description, price, amount } = req.body;
       PGS.addItem({
         id,
         title,
         description,
-        price,
-        amount,
+        amount: price,
+        quantity: '1',
       });
 
       PGS.shipping({

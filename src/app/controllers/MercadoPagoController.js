@@ -32,7 +32,7 @@ class MercadoPagoController {
           id,
           title,
           description,
-          quantity: parseInt(amount),
+          quantity: 1,
           currency_id: 'BRL',
           unit_price: parseInt(price),
         },
