@@ -2,6 +2,7 @@ const routes = require('express').Router();
 const UserController = require('./app/controllers/UserController');
 const RankController = require('./app/controllers/RankController');
 const TreasureController = require('./app/controllers/TreasureController');
+const TicketController = require('./app/controllers/TicketController');
 const StatementController = require('./app/controllers/StatementController');
 const SessionController = require('./app/controllers/SessionController');
 const authMiddleware = require('./app/middlewares/auth');
@@ -23,6 +24,14 @@ routes.post('/rank', RankController.store);
 routes.get('/rank', RankController.index);
 routes.put('/rank/:id', RankController.update);
 routes.delete('/rank/:id', RankController.delete);
+
+routes.post('/tickets', TicketController.store);
+routes.get('/tickets', TicketController.index);
+routes.get('/tickets/:id', TicketController.indexOne);
+routes.get('/tickets/helper/:id', TicketController.indexByHelper);
+routes.get('/tickets/helped/:id', TicketController.indexByHelped);
+routes.put('/tickets/:id', TicketController.update);
+routes.delete('/tickets/:id', TicketController.delete);
 
 routes.post('/treasures', TreasureController.store);
 routes.get('/treasures', TreasureController.index);
