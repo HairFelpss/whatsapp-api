@@ -4,7 +4,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn('users', 'cp_rank_id', {
       type: Sequelize.INTEGER,
-      references: { model: 'cp_rank', key: 'id' },
+      references: { model: 'cp_ranks', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     });

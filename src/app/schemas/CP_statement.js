@@ -1,33 +1,26 @@
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
-const CP_treasure = new mongoose.Schema(
+const CP_statement = new mongoose.Schema(
   {
     id: {
       type: Number,
       required: true,
       default: 0,
     },
-    title: {
-      type: String,
+    user_id: {
+      type: Number,
       required: true,
     },
     description: {
       type: String,
       required: true,
     },
-    image_url: {
-      type: String,
-      required: true,
-    },
-    qt_bought: {
+    status: {
       type: Number,
+      enum: [0, 1, 2, 3],
       required: true,
     },
-    price: {
-      type: String,
-      required: true,
-    },
-    amount: {
+    value: {
       type: Number,
       required: true,
     },
@@ -37,5 +30,5 @@ const CP_treasure = new mongoose.Schema(
   }
 );
 
-CP_treasure.plugin(AutoIncrement, { id: 'id_seq', inc_field: 'id' });
-module.exports = mongoose.model('treasure', CP_treasure);
+CP_statement.plugin(AutoIncrement, { id: 'id_seq', inc_field: 'id' });
+module.exports = mongoose.model('statement', CP_statement);

@@ -50,8 +50,9 @@ const CP_user_last_login = new mongoose.Schema(
     },
   },
   {
-    timestamps: true,
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
   }
 );
 
+CP_user_last_login.plugin(AutoIncrement, { id: 'id_seq', inc_field: 'id' });
 export default mongoose.model('user_last_login', CP_user_last_login);
