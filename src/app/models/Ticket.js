@@ -7,12 +7,12 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   cp_ticket.associate = (models) => {
-    cp_ticket.hasOne(models.User, {
+    cp_ticket.belongsTo(models.User, {
       foreignKey: 'helper_id',
       as: 'helper',
     });
 
-    cp_ticket.hasOne(models.User, {
+    cp_ticket.belongsTo(models.User, {
       foreignKey: 'helped_id',
       as: 'helped',
     });

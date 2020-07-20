@@ -37,10 +37,7 @@ class TreasureController {
 
   async index(req, res) {
     try {
-      const response = await treasure.find(
-        {},
-        { _id: 0, __v: 0, created_at: 0 }
-      );
+      const response = await treasure.find({}, { _id: 0, __v: 0 });
 
       res.json(response);
     } catch (err) {
@@ -60,18 +57,13 @@ class TreasureController {
       const { title } = req.body;
       const { id } = req.params;
       const response = await treasure.findOne({ id: id });
-      console.log('costa de sapo => ', response);
 
       if (title && title !== response.title) {
-        console.log('entro => ', req.body.title);
-
         const treasureExists = await treasure.findOne({
           title: req.body.title,
         });
-        console.log('asdfasd =>> ', treasureExists);
 
         if (treasureExists) {
-          console.log('asdfasd');
           return res.status(401).json({ error: 'treasure already exists' });
         }
       }

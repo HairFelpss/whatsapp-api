@@ -30,5 +30,5 @@ const CP_statement = new mongoose.Schema(
   }
 );
 
-CP_statement.plugin(AutoIncrement, { id: 'id_seq', inc_field: 'id' });
+CP_statement.plugin(AutoIncrement, { id: 'id_sequence', inc_field: 'id' });
 module.exports = mongoose.model('statement', CP_statement);

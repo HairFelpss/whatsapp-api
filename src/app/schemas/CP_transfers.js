@@ -5,6 +5,7 @@ const CP_transfersSchema = new mongoose.Schema(
     id: {
       type: Number,
       required: true,
+      default: 0,
     },
     amount: {
       type: String,

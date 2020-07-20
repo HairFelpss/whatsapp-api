@@ -45,11 +45,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'cp_rank_id',
       as: 'rank',
     });
-    User.belongsTo(models.cp_ticket, {
+    User.hasOne(models.cp_ticket, {
       foreignKey: 'cp_ticket_id',
       as: 'ticket',
     });
-    User.belongsTo(models.cp_comment, {
+    User.hasOne(models.cp_comment, {
       foreignKey: 'cp_comment_id',
       as: 'comment',
     });

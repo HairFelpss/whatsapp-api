@@ -5,6 +5,7 @@ const CP_forgot_passwordSchema = new mongoose.Schema(
     id: {
       type: Number,
       required: true,
+      default: 0,
     },
     account_id: {
       type: Number,
@@ -21,7 +22,7 @@ const CP_forgot_passwordSchema = new mongoose.Schema(
 );
 
 CP_forgot_passwordSchema.plugin(AutoIncrement, {
-  id: 'id_seq',
+  id: 'id_se',
   inc_field: 'id',
 });
 export default mongoose.model('forgot_password', CP_forgot_passwordSchema);

@@ -5,6 +5,7 @@ const CP_user_last_login = new mongoose.Schema(
     id: {
       type: Number,
       required: true,
+      default: 0,
     },
     account: {
       type: String,
@@ -54,5 +55,5 @@ const CP_user_last_login = new mongoose.Schema(
   }
 );
 
-CP_user_last_login.plugin(AutoIncrement, { id: 'id_seq', inc_field: 'id' });
+CP_user_last_login.plugin(AutoIncrement, { id: 'id_seque', inc_field: 'id' });
 export default mongoose.model('user_last_login', CP_user_last_login);

@@ -2,6 +2,7 @@ const routes = require('express').Router();
 const UserController = require('./app/controllers/UserController');
 const RankController = require('./app/controllers/RankController');
 const TreasureController = require('./app/controllers/TreasureController');
+const StatementController = require('./app/controllers/StatementController');
 const SessionController = require('./app/controllers/SessionController');
 const authMiddleware = require('./app/middlewares/auth');
 const PagSeguroController = require('./app/controllers/PagSeguroController');
@@ -27,6 +28,12 @@ routes.post('/treasures', TreasureController.store);
 routes.get('/treasures', TreasureController.index);
 routes.put('/treasures/:id', TreasureController.update);
 routes.delete('/treasures/:id', TreasureController.delete);
+
+routes.post('/statements', StatementController.store);
+routes.get('/statements', StatementController.index);
+routes.get('/statements/:id', StatementController.indexOneUser);
+routes.put('/statements/:id', StatementController.update);
+routes.delete('/statements/:id', StatementController.delete);
 
 //PAYMENTS
 routes.post('/pagseguro/pay', PagSeguroController.payment);

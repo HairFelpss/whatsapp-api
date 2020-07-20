@@ -5,6 +5,7 @@ const CP_donationsSchema = new mongoose.Schema(
     id: {
       type: Number,
       required: true,
+      default: 0,
     },
     account: {
       type: String,
@@ -54,5 +55,5 @@ const CP_donationsSchema = new mongoose.Schema(
   }
 );
 
-CP_donationsSchema.plugin(AutoIncrement, { id: 'id_seq', inc_field: 'id' });
+CP_donationsSchema.plugin(AutoIncrement, { id: 'id_sequenc', inc_field: 'id' });
 export default mongoose.model('donations', CP_donationsSchema);
