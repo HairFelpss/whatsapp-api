@@ -3,6 +3,7 @@ const UserController = require('./app/controllers/UserController');
 const RankController = require('./app/controllers/RankController');
 const TreasureController = require('./app/controllers/TreasureController');
 const TicketController = require('./app/controllers/TicketController');
+const MessageController = require('./app/controllers/MessageController');
 const StatementController = require('./app/controllers/StatementController');
 const SessionController = require('./app/controllers/SessionController');
 const authMiddleware = require('./app/middlewares/auth');
@@ -32,6 +33,11 @@ routes.get('/tickets/helper/:id', TicketController.indexByHelper);
 routes.get('/tickets/helped/:id', TicketController.indexByHelped);
 routes.put('/tickets/:id', TicketController.update);
 routes.delete('/tickets/:id', TicketController.delete);
+
+routes.post('/messages', MessageController.store);
+routes.get('/messages/:id', MessageController.index);
+routes.delete('/messages/:id', MessageController.delete);
+routes.delete('/messages/deleteMessage/:id', MessageController.delete);
 
 routes.post('/treasures', TreasureController.store);
 routes.get('/treasures', TreasureController.index);

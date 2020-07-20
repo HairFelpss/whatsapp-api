@@ -1,6 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const cp_ticket = sequelize.define('cp_ticket', {
-    name: DataTypes.STRING,
     title: DataTypes.STRING,
     status: DataTypes.INTEGER,
     category: DataTypes.INTEGER,

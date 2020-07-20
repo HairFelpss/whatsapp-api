@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('cp_tickets_comments', {
+    return queryInterface.createTable('cp_tickets_messages', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -16,7 +16,7 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      ticket_id: {
+      cp_ticket_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: { model: 'cp_tickets', key: 'id' },
@@ -39,6 +39,6 @@ module.exports = {
   },
 
   down: (queryInterface) => {
-    return queryInterface.dropTable('cp_tickets_comments');
+    return queryInterface.dropTable('cp_tickets_messages');
   },
 };
