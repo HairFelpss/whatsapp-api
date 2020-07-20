@@ -25,5 +25,5 @@ const CP_transfersSchema = new mongoose.Schema(
   }
 );
 
-CP_transfersSchema.plugin(AutoIncrement, { id: 'id_seq', inc_field: 'id' });
+CP_transfersSchema.plugin(AutoIncrement, { id: 'id_sequen', inc_field: 'id' });
 export default mongoose.model('transfers', CP_transfersSchema);

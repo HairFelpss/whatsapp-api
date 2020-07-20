@@ -21,5 +21,5 @@ const CP_log_adminSchema = new mongoose.Schema(
   }
 );
 
-CP_log_adminSchema.plugin(AutoIncrement, { id: 'id_seq', inc_field: 'id' });
+CP_log_adminSchema.plugin(AutoIncrement, { id: 'id_sequ', inc_field: 'id' });
 export default mongoose.model('log_admin', CP_log_adminSchema);
