@@ -1,4 +1,7 @@
 const Ticket = require('../models').cp_ticket;
+const { User } = require('../models');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 class TicketController {
   async store(req, res) {
@@ -29,18 +32,99 @@ class TicketController {
     }
   }
 
+  async search(req, res) {
+    try {
+      const { search } = req.params;
+      const ticket = await Ticket.findAll({
+        where: {
+          title: { [Op.like]: `%${search}%` },
+        },
+        attributes: [
+          'id',
+          'title',
+          'status',
+          'category',
+          'created_at',
+          'updated_at',
+        ],
+        include: [
+          {
+            model: User,
+            as: 'helped',
+            attributes: ['email', 'id'],
+          },
+          {
+            model: User,
+            as: 'helper',
+            attributes: ['truename', 'id'],
+          },
+        ],
+      });
+      res.json(ticket);
+    } catch (err) {
+      console.log('err => ', err);
+    }
+  }
+
+  async filter(req, res) {
+    try {
+      const { category, helper, status } = req.body;
+      const ticket = await Ticket.findAll({
+        where: {
+          [Op.or]: [
+            { helper_id: { [Op.like]: `%${helper}%` } },
+            { category: { [Op.like]: `%${category}%` } },
+            { status: { [Op.like]: `%${status}%` } },
+          ],
+        },
+        attributes: [
+          'id',
+          'title',
+          'status',
+          'category',
+          'created_at',
+          'updated_at',
+        ],
+        include: [
+          {
+            model: User,
+            as: 'helped',
+            attributes: ['email', 'id'],
+          },
+          {
+            model: User,
+            as: 'helper',
+            attributes: ['truename', 'id'],
+          },
+        ],
+      });
+      res.json(ticket);
+    } catch (err) {
+      console.log('err => ', err);
+    }
+  }
   async index(req, res) {
     try {
       const ticket = await Ticket.findAll({
         attributes: [
           'id',
-          'helped_id',
-          'helper_id',
           'title',
           'status',
           'category',
           'created_at',
           'updated_at',
+        ],
+        include: [
+          {
+            model: User,
+            as: 'helped',
+            attributes: ['email', 'id'],
+          },
+          {
+            model: User,
+            as: 'helper',
+            attributes: ['truename', 'id'],
+          },
         ],
       });
       return res.json(ticket);
@@ -49,17 +133,14 @@ class TicketController {
     }
   }
 
-  async indexByHelper(req, res) {
+  async indexSolvedTickets(req, res) {
     try {
-      const { id } = req.params;
-      const ticket = await Ticket.findAll({
+      const { count: solved } = await Ticket.findAndCountAll({
         where: {
-          helper_id: id,
+          status: 2,
         },
         attributes: [
           'id',
-          'helped_id',
-          'helper_id',
           'title',
           'status',
           'category',
@@ -67,23 +148,9 @@ class TicketController {
           'updated_at',
         ],
       });
-      return res.json(ticket);
-    } catch (err) {
-      console.log('err => ', err);
-    }
-  }
-
-  async indexByHelped(req, res) {
-    try {
-      const { id } = req.params;
-      const ticket = await Ticket.findAll({
-        where: {
-          helped_id: id,
-        },
+      const { count: tickets } = await Ticket.findAndCountAll({
         attributes: [
           'id',
-          'helped_id',
-          'helper_id',
           'title',
           'status',
           'category',
@@ -91,35 +158,11 @@ class TicketController {
           'updated_at',
         ],
       });
-      return res.json(ticket);
+      return res.json({ solved, tickets });
     } catch (err) {
       console.log('err => ', err);
     }
   }
-
-  async indexOne(req, res) {
-    try {
-      const { id } = req.params;
-      const {
-        helped_id,
-        helper_id,
-        title,
-        status,
-        category,
-      } = await Ticket.findByPk(id);
-
-      return res.json({
-        helped_id,
-        helper_id,
-        title,
-        status,
-        category,
-      });
-    } catch (err) {
-      console.log('err => ', err);
-    }
-  }
-
   async update(req, res) {
     try {
       const { id } = req.params;
@@ -149,7 +192,7 @@ class TicketController {
     try {
       const { id } = req.params;
       const ticket = await Ticket.findByPk(id);
-      const deleteTicket = await ticket.destroy(req.body);
+      const deleteTicket = await ticket.destroy();
       res.json(deleteTicket);
     } catch (err) {
       console.log('err => ', err);

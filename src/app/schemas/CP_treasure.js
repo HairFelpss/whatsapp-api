@@ -10,10 +10,12 @@ const CP_treasure = new mongoose.Schema(
     title: {
       type: String,
       required: true,
+      text: true,
     },
     description: {
       type: String,
       required: true,
+      text: true,
     },
     image_url: {
       type: String,

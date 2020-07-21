@@ -1,7 +1,9 @@
 const { User } = require('../models');
 
-const sequelize = require('sequelize');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
+const moment = require('moment');
 class UserController {
   async store(req, res) {
     try {
@@ -28,7 +30,7 @@ class UserController {
       }
 
       const max = await User.findAll({
-        attributes: [[sequelize.fn('MAX', sequelize.col('ID')), 'ID']],
+        attributes: [[Sequelize.fn('MAX', Sequelize.col('ID')), 'ID']],
         raw: true,
       });
 
@@ -67,6 +69,50 @@ class UserController {
     }
   }
 
+  async indexAccounts(req, res) {
+    try {
+      const { count: accounts } = await User.findAndCountAll({});
+
+      const lastStartDate = moment(new Date())
+        .subtract(1, 'months')
+        .startOf('month')
+        .format('YYYY-MM-DD');
+
+      const lastEndDate = moment(new Date())
+        .subtract(1, 'months')
+        .endOf('month')
+        .format('YYYY-MM-DD');
+
+      const currentStartDate = moment(new Date())
+        .startOf('month')
+        .format('YYYY-MM-DD');
+
+      const currentEndDate = moment(new Date())
+        .endOf('month')
+        .format('YYYY-MM-DD');
+
+      const { count: lastMonth } = await User.findAndCountAll({
+        where: {
+          creatime: {
+            [Op.between]: [lastStartDate, lastEndDate],
+          },
+        },
+      });
+
+      const { count: currentMonth } = await User.findAndCountAll({
+        where: {
+          creatime: {
+            [Op.between]: [currentStartDate, currentEndDate],
+          },
+        },
+      });
+
+      return res.json({ accounts, currentMonth, lastMonth });
+    } catch (err) {
+      console.log('err => ', err);
+    }
+  }
+
   async index(req, res) {
     try {
       const user = await User.findAll({
@@ -91,6 +137,25 @@ class UserController {
         email,
         cp_rank_id,
       });
+    } catch (err) {
+      console.log('err => ', err);
+    }
+  }
+
+  async search(req, res) {
+    try {
+      const { search } = req.params;
+      const response = await User.findAll({
+        where: {
+          [Op.or]: [
+            { name: { [Op.like]: `%${search}%` } },
+            { email: { [Op.like]: `%${search}%` } },
+            { cp_rank_id: { [Op.like]: `%${search}%` } },
+          ],
+        },
+        attributes: ['ID', 'name', 'email', 'creatime', 'cp_rank_id'],
+      });
+      res.json(response);
     } catch (err) {
       console.log('err => ', err);
     }

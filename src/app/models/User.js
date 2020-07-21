@@ -45,10 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'cp_rank_id',
       as: 'rank',
     });
-    User.hasOne(models.cp_ticket, {
-      foreignKey: 'cp_ticket_id',
-      as: 'ticket',
-    });
+
     User.hasOne(models.cp_tickets_messages, {
       foreignKey: 'writer_id',
       as: 'writer',

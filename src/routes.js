@@ -17,6 +17,8 @@ routes.post('/sessions', SessionController.store);
 //routes.use(authMiddleware);
 
 routes.get('/users', UserController.index);
+routes.get('/users/count', UserController.indexAccounts);
+routes.get('/users/search/:search', UserController.search);
 routes.get('/users/:id', UserController.indexOne);
 routes.put('/users/:id', UserController.update);
 routes.delete('/users/:id', UserController.delete);
@@ -27,10 +29,10 @@ routes.put('/rank/:id', RankController.update);
 routes.delete('/rank/:id', RankController.delete);
 
 routes.post('/tickets', TicketController.store);
+routes.get('/tickets/search/:search', TicketController.search);
+routes.get('/tickets/solved', TicketController.indexSolvedTickets);
+routes.post('/tickets/filter', TicketController.filter);
 routes.get('/tickets', TicketController.index);
-routes.get('/tickets/:id', TicketController.indexOne);
-routes.get('/tickets/helper/:id', TicketController.indexByHelper);
-routes.get('/tickets/helped/:id', TicketController.indexByHelped);
 routes.put('/tickets/:id', TicketController.update);
 routes.delete('/tickets/:id', TicketController.delete);
 
@@ -41,6 +43,7 @@ routes.delete('/messages/deleteMessage/:id', MessageController.delete);
 
 routes.post('/treasures', TreasureController.store);
 routes.get('/treasures', TreasureController.index);
+routes.get('/treasures/search/:search', TreasureController.search);
 routes.put('/treasures/:id', TreasureController.update);
 routes.delete('/treasures/:id', TreasureController.delete);
 

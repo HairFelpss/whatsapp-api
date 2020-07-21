@@ -1,4 +1,4 @@
-const treasure = require('../schemas/CP_treasure');
+const donation = require('../schemas/CP_donations');
 
 class TreasureController {
   async store(req, res) {
