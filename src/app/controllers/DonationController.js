@@ -1,6 +1,6 @@
 const donation = require('../schemas/CP_donations');
 
-class TreasureController {
+class DonationController {
   async store(req, res) {
     try {
       /*const schema = Yup.object().shape({
@@ -20,7 +20,7 @@ class TreasureController {
         qt_bought,
         amount,
         price,
-      } = await treasure.create(req.body);
+      } = await donation.create(req.body);
 
       res.json({
         title,
@@ -37,7 +37,7 @@ class TreasureController {
 
   async index(req, res) {
     try {
-      const response = await treasure.find({}, { _id: 0, __v: 0 });
+      const response = await donation.find({}, { _id: 0, __v: 0 });
 
       res.json(response);
     } catch (err) {
@@ -48,7 +48,7 @@ class TreasureController {
   async search(req, res) {
     try {
       const { search } = req.params;
-      const response = await treasure.find(
+      const response = await donation.find(
         { $text: { $search: search } },
         { _id: 0, __v: 0 }
       );
@@ -70,15 +70,15 @@ class TreasureController {
     try {
       const { title } = req.body;
       const { id } = req.params;
-      const response = await treasure.findOne({ id: id });
+      const response = await donation.findOne({ id: id });
 
       if (title && title !== response.title) {
-        const treasureExists = await treasure.findOne({
+        const donationExists = await donation.findOne({
           title: req.body.title,
         });
 
-        if (treasureExists) {
-          return res.status(401).json({ error: 'treasure already exists' });
+        if (donationExists) {
+          return res.status(401).json({ error: 'donation already exists' });
         }
       }
 
@@ -88,7 +88,7 @@ class TreasureController {
         qt_bought,
         amount,
         price,
-      } = await treasure.findOneAndUpdate({ id: id }, req.body);
+      } = await donation.findOneAndUpdate({ id: id }, req.body);
 
       return res.json({
         title,
@@ -113,7 +113,7 @@ class TreasureController {
         qt_bought,
         amount,
         price,
-      } = await treasure.findOneAndDelete({ id: id });
+      } = await donation.findOneAndDelete({ id: id });
 
       res.json({
         title,
@@ -130,4 +130,4 @@ class TreasureController {
     }
   }
 }
-module.exports = new TreasureController();
+module.exports = new DonationController();
