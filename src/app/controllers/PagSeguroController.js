@@ -41,10 +41,8 @@ class PagSeguroController {
   }
   async notify(req, res) {
     //const { code } = req.body;
-    console.log('chamou aqui');
     PGS.notification(code, (success, response) => {
       const jsonResponse = JSON.parse(xmlParser.toJson(response));
-      console.log('AQUIUIII ====> ', jsonResponse);
       if (success) {
         return res.json({ success, jsonResponse });
       }

@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     cp_tickets_messages.belongsTo(models.User, {
       foreignKey: 'writer_id',
-      as: 'user',
+      as: 'writer',
     });
   };
   return cp_tickets_messages;

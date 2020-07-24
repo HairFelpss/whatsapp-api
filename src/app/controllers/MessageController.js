@@ -1,4 +1,6 @@
 const Message = require('../models').cp_tickets_messages;
+const { User } = require('../models');
+const Ticket = require('../models').cp_ticket;
 
 class MessageController {
   async store(req, res) {
@@ -42,12 +44,13 @@ class MessageController {
         where: {
           cp_ticket_id: id,
         },
-        attributes: [
-          'id',
-          'writer_id',
-          'cp_ticket_id',
-          'content',
-          'created_at',
+        attributes: ['id', 'content', 'created_at'],
+        include: [
+          {
+            model: User,
+            as: 'writer',
+            attributes: ['cp_rank_id', 'name', 'email'],
+          },
         ],
       });
       return res.json(message);
