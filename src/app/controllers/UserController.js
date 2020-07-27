@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const Rank = require('../models').cp_rank;
 
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
@@ -116,7 +117,14 @@ class UserController {
   async index(req, res) {
     try {
       const user = await User.findAll({
-        attributes: ['ID', 'name', 'email', 'creatime', 'cp_rank_id'],
+        attributes: ['ID', 'name', 'email', 'creatime'],
+        include: [
+          {
+            model: Rank,
+            as: 'rank',
+            attributes: ['id', 'name'],
+          },
+        ],
       });
       return res.json(user);
     } catch (err) {
@@ -153,9 +161,37 @@ class UserController {
             { cp_rank_id: { [Op.like]: `%${search}%` } },
           ],
         },
-        attributes: ['ID', 'name', 'email', 'creatime', 'cp_rank_id'],
+        attributes: ['ID', 'name', 'email', 'creatime'],
+        include: [
+          {
+            model: Rank,
+            as: 'rank',
+            attributes: ['id', 'name'],
+          },
+        ],
       });
       res.json(response);
+    } catch (err) {
+      console.log('err => ', err);
+    }
+  }
+
+  async indexManagers(req, res) {
+    try {
+      const managers = await User.findAll({
+        where: {
+          [Op.or]: [{ cp_rank_id: 1 }, { cp_rank_id: 2 }],
+        },
+        attributes: ['ID', 'name', 'truename'],
+        include: [
+          {
+            model: Rank,
+            as: 'rank',
+            attributes: ['name'],
+          },
+        ],
+      });
+      res.json(managers);
     } catch (err) {
       console.log('err => ', err);
     }

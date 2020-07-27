@@ -18,6 +18,7 @@ routes.post('/sessions', SessionController.store);
 
 routes.get('/users', UserController.index);
 routes.get('/users/count', UserController.indexAccounts);
+routes.get('/users/managers', UserController.indexManagers);
 routes.get('/users/search/:search', UserController.search);
 routes.get('/users/:id', UserController.indexOne);
 routes.put('/users/:id', UserController.update);

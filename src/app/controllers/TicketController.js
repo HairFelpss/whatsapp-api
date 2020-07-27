@@ -72,9 +72,9 @@ class TicketController {
       const ticket = await Ticket.findAll({
         where: {
           [Op.or]: [
-            { helper_id: { [Op.like]: `%${helper}%` } },
-            { category: { [Op.like]: `%${category}%` } },
-            { status: { [Op.like]: `%${status}%` } },
+            helper && { helper_id: { [Op.like]: `%${helper}%` } },
+            category && { category: { [Op.like]: `%${category}%` } },
+            status && { status: { [Op.like]: `%${status}%` } },
           ],
         },
         attributes: [
@@ -103,6 +103,7 @@ class TicketController {
       console.log('err => ', err);
     }
   }
+
   async index(req, res) {
     try {
       const ticket = await Ticket.findAll({
@@ -163,6 +164,7 @@ class TicketController {
       console.log('err => ', err);
     }
   }
+
   async update(req, res) {
     try {
       const { id } = req.params;
@@ -201,4 +203,5 @@ class TicketController {
     }
   }
 }
+
 module.exports = new TicketController();
