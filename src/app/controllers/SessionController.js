@@ -1,65 +1,62 @@
-const jwt = require('jsonwebtoken');
-const authConfig = require('../../config/auth');
+import jwt from 'jsonwebtoken';
+import * as Yup from 'yup';
 
-const { User } = require('../models');
-const Rank = require('../models').cp_rank;
+import authConfig from '../../config/auth';
+
+import User from '../models/User';
+import Role from '../models/Role';
+import File from '../models/File';
 
 class SessionController {
   async store(req, res) {
     try {
-      /*const schema = Yup.object().shape({
+      const schema = Yup.object().shape({
         email: Yup.string().email().required(),
         password: Yup.string().required(),
       });
+
       if (!(await schema.isValid(req.body))) {
         return res.status(400).json({ error: 'Validation fails' });
-      }*/
+      }
 
-      const { email, passwd } = req.body;
+      const { email, password } = req.body;
 
       const user = await User.findOne({
-        where: {
-          email,
-        },
+        where: { email },
+        include: [
+          {
+            model: File,
+            as: 'avatar',
+            attributes: ['id', 'path', 'url'],
+          },
+        ],
       });
-
       if (!user) {
-        return res.status(401).json({
-          error: 'User not found',
-        });
+        return res.status(401).json({ error: 'User not found' });
       }
 
-      if (!(await user.checkPassword(passwd))) {
-        return res.status(401).json({
-          error: 'Password does not match ',
-        });
+      if (!(await user.checkPassword(password))) {
+        return res.status(401).json({ error: 'Password does not match ' });
       }
 
-      const { id, name, truename, cp_rank_id } = user;
-      const rank = cp_rank_id
-        ? await Rank.findOne({ where: { id: cp_rank_id } })
+      const { id, name, role_id, avatar } = user;
+      const role = role_id
+        ? await Role.findOne({ where: { id: role_id } })
         : null;
-      const rank_name = rank ? rank.name : 'user';
+      const role_name = role ? role.name : 'user';
 
       return res.json({
         user: {
           id,
           name,
-          truename,
           email,
-          rank_name,
-          cp_rank_id,
+          role_name,
+          role_id,
+          avatar,
         },
-        token: jwt.sign(
-          {
-            id,
-            rank_name,
-          },
-          authConfig.secret,
-          {
-            expiresIn: authConfig.expiresIn,
-          }
-        ),
+        token: jwt.sign({ id, role_name }, authConfig.secret, {
+          expiresIn: authConfig.expiresIn,
+        }),
       });
     } catch (err) {
       console.log('err => ', err);
@@ -67,4 +64,4 @@ class SessionController {
   }
 }
 
-module.exports = new SessionController();
+export default new SessionController();

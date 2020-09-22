@@ -1,13 +1,13 @@
 import mongoose from 'moongose';
 
-const CP_transfersSchema = new mongoose.Schema(
+const EmailChangeSchema = new mongoose.Schema(
   {
     id: {
       type: Number,
       required: true,
       default: 0,
     },
-    amount: {
+    account: {
       type: String,
       required: true,
     },
@@ -25,5 +25,5 @@ const CP_transfersSchema = new mongoose.Schema(
   }
 );
 
-CP_transfersSchema.plugin(AutoIncrement, { id: 'id_sequen', inc_field: 'id' });
-export default mongoose.model('transfers', CP_transfersSchema);
+EmailChangeSchema.plugin(AutoIncrement, { id: 'id_s', inc_field: 'id' });
+export default mongoose.model('email_change', EmailChangeSchema);

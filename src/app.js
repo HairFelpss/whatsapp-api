@@ -2,34 +2,45 @@ require('dotenv').config({
   path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
 });
 
-const express = require('express');
-const routes = require('./routes');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+import express from 'express';
+import path from 'path';
+import cors from 'cors';
+import routes from './routes';
 
-require('express-async-errors');
+import * as Sentry from '@sentry/node';
+import sentryConfig from './config/sentry';
+
+import 'express-async-errors';
+
+import './database/index';
 
 class AppController {
   constructor() {
-    this.express = express();
+    this.server = express();
+
+    Sentry.init(sentryConfig);
 
     this.middlewares();
     this.routes();
   }
 
   middlewares() {
-    this.express.use(cors());
-    this.express.use(express.json());
-    this.express.use(bodyParser.urlencoded({ extended: false }));
-    this.express.use(bodyParser.json());
+    this.server.use(Sentry.Handlers.requestHandler());
+    this.server.use(cors());
+    this.server.use(express.json());
+    this.server.use(
+      '/files',
+      express.static(path.resolve(__dirname, '..', 'tmp', 'uploads'))
+    );
   }
 
   routes() {
-    this.express.use(routes);
+    this.server.use(routes);
+    this.server.use(Sentry.Handlers.errorHandler());
   }
 
   exceptionHandler() {
-    this.express.use(async (err, req, res, next) => {
+    this.server.use(async (err, req, res, next) => {
       if (process.env.NODE_ENV === 'development') {
         const errors = await new Youch(err, req).toJSON();
 
@@ -41,4 +52,4 @@ class AppController {
   }
 }
 
-module.exports = new AppController().express;
+export default new AppController().server;

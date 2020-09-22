@@ -1,8 +1,3 @@
-const app = require('./app');
+import app from './app';
 
-console.log(
-  `listen app on port: ===> ${process.env.PORT || 5000}, enviroment => ${
-    process.env.NODE_ENV
-  }`
-);
-app.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT || 7777);

@@ -1,6 +1,6 @@
 import mongoose from 'moongose';
 
-const CP_log_adminSchema = new mongoose.Schema(
+const LogAdminSchema = new mongoose.Schema(
   {
     id: {
       type: Number,
@@ -21,5 +21,5 @@ const CP_log_adminSchema = new mongoose.Schema(
   }
 );
 
-CP_log_adminSchema.plugin(AutoIncrement, { id: 'id_sequ', inc_field: 'id' });
-export default mongoose.model('log_admin', CP_log_adminSchema);
+LogAdminSchema.plugin(AutoIncrement, { id: 'id_sequ', inc_field: 'id' });
+export default mongoose.model('log_admin', LogAdminSchema);

@@ -1,55 +1,40 @@
-const bcrypt = require('bcryptjs');
+import Sequelize, { Model } from 'sequelize';
+import brycpt from 'bcryptjs';
 
-module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    'User',
-    {
-      id: {
-        field: 'ID',
-        primaryKey: true,
-        unique: true,
-        type: DataTypes.INTEGER,
+class User extends Model {
+  static init(sequelize) {
+    super.init(
+      {
+        name: Sequelize.STRING,
+        email: Sequelize.STRING,
+        password: Sequelize.VIRTUAL,
+        password_hash: Sequelize.STRING,
       },
-      name: DataTypes.STRING,
-      passwd: DataTypes.INTEGER,
-      passwd_hash: DataTypes.VIRTUAL,
-      Prompt: DataTypes.STRING,
-      answer: DataTypes.STRING,
-      truename: DataTypes.STRING,
-      email: DataTypes.STRING,
-      createdAt: {
-        field: 'creatime',
-        type: DataTypes.DATE,
-      },
-    },
-    {
-      timestamps: true,
-      updatedAt: false,
-      hooks: {
-        beforeSave: async (user) => {
-          if (user.passwd_hash) {
-            user.passwd = await bcrypt.hash(user.passwd_hash, 10);
-          }
-        },
-      },
-    }
-  );
+      {
+        sequelize,
+      }
+    );
 
-  // Adding an instance level methods.
-  User.prototype.checkPassword = async function (passwd_hash) {
-    return await bcrypt.compareSync(passwd_hash, this.passwd);
-  };
-
-  User.associate = (models) => {
-    User.belongsTo(models.cp_rank, {
-      foreignKey: 'cp_rank_id',
-      as: 'rank',
+    this.addHook('beforeSave', async (user) => {
+      if (user.password) {
+        user.password_hash = await brycpt.hash(user.password, 10);
+      }
     });
 
-    User.hasOne(models.cp_tickets_messages, {
-      foreignKey: 'writer_id',
-      as: 'writer',
+    return this;
+  }
+
+  static associate(models) {
+    this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
+    this.belongsTo(models.Role, {
+      foreignKey: 'role_id',
+      as: 'role',
     });
-  };
-  return User;
-};
+  }
+
+  checkPassword(password) {
+    return brycpt.compare(password, this.password_hash);
+  }
+}
+
+export default User;

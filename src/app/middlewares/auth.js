@@ -1,9 +1,9 @@
-const jwt = require('jsonwebtoken');
-const promisify = require('util').promisify;
+import jwt from 'jsonwebtoken';
+import { promisify } from 'util';
 
-const authConfig = require('../../config/auth');
+import authConfig from '../../config/auth';
 
-module.exports = async (req, res, next) => {
+export default async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -20,4 +20,6 @@ module.exports = async (req, res, next) => {
   } catch (err) {
     return res.status(401).json({ error: 'Token not invalid ' });
   }
+
+  return next();
 };

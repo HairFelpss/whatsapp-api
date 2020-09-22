@@ -2,15 +2,15 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.addColumn('users', 'cp_rank_id', {
+    return queryInterface.addColumn('users', 'avatar_id', {
       type: Sequelize.INTEGER,
-      references: { model: 'cp_ranks', key: 'id' },
+      references: { model: 'files', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     });
   },
 
   down: (queryInterface) => {
-    return queryInterface.removeColumn('users', 'cp_rank_id');
+    return queryInterface.removeColumn('users', 'avatar_id');
   },
 };

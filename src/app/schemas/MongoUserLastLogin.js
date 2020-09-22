@@ -1,6 +1,6 @@
 import mongoose from 'moongose';
 
-const CP_user_last_login = new mongoose.Schema(
+const UserLastLoginSchema = new mongoose.Schema(
   {
     id: {
       type: Number,
@@ -55,5 +55,5 @@ const CP_user_last_login = new mongoose.Schema(
   }
 );
 
-CP_user_last_login.plugin(AutoIncrement, { id: 'id_seque', inc_field: 'id' });
-export default mongoose.model('user_last_login', CP_user_last_login);
+UserLastLoginSchema.plugin(AutoIncrement, { id: 'id_seque', inc_field: 'id' });
+export default mongoose.model('user_last_login', UserLastLoginSchema);
